@@ -12,11 +12,33 @@
     <div class="content">
       <input type="button" value="ffff" onclick="errorClick()">
       <input type="button" value="gggg" onclick="promiseErrorClick()">
+      <input type="button" value="xhrSuccess" onclick="sendSuccess()">
+      <input type="button" elementtiming value="xhrError" onclick="sendError()">
     </div>
   </div>
   <script>
+    //dom解析完成，即使资源没加载完成
+    // document.addEventListener('DOMContentLoaded', () => {
+    //   let start = Date.now()
+    //   while ((Date.now() - start) < 1000) { }
+    // })
     function errorClick() {
       window.someVar.aaa = 'xxxxx'
+    }
+    function sendSuccess() {
+      const xhr = new XMLHttpRequest
+      xhr.open('GET', '/success', true)
+      xhr.responseType = 'json'
+      xhr.onload = () => console.log(xhr.response)
+      xhr.send()
+    }
+    function sendError() {
+      const xhr = new XMLHttpRequest
+      xhr.open('POST', '/error', true)
+      xhr.responseType = 'json'
+      xhr.onload = () => console.log(xhr.response)
+      xhr.onerror = error => console.log(error)
+      xhr.send()
     }
   </script>
 </body>
