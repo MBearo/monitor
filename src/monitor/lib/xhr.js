@@ -10,7 +10,7 @@ export function injectXHR() {
 
   let oldSend = XMLHttpRequest.prototype.send
 
-  XMLHttpRequest.prototype.send = function (method, url, async) {
+  XMLHttpRequest.prototype.send = function (body) {
     if (this.logData) {
       const startTime = Date.now()
       const handler = type => event => {
@@ -42,6 +42,6 @@ export function injectXHR() {
       this.addEventListener('error', handler('error'), false)
       this.addEventListener('abort', handler('abort'), false)
     }
-    return oldOpen.apply(this, arguments)
+    return oldSend.apply(this, arguments)
   }
 }
